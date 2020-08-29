@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-//El algoritmo lineal recorre un arreglo y cada que llega a una posicion divisible entre 6 se cuenta una columna y asi cuando encuentra un 0 devuelve el numero de columna en la que esta el edificio mas alto.
+//El algoritmo recorre un arreglo y cada que llega a una posicion divisible entre 6 se cuenta una columna y asi cuando encuentra un 0 devuelve el numero de columna en la que esta el edificio mas alto.
 
-int tallestbuilding(int building[])//Lineal
+int tallestbuilding(int building[])
 {
     int col = 0;
     for (int n=0; n<(5*6); n++)
@@ -36,7 +36,7 @@ int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int r
 
 //Este algotirmo utiliza busqueda binaria ya que empieza buscando en la mitad de la matriz, si encuentra 0 se va hacia arriba sino hacia abajo uy actualiza la nueva mitad de la matriz.
 
-int tallestbuilding_3(int building_2[5][6], int row, int col, int start = 0,  int end = 0)//Logaritmico
+int tallestbuilding_3(int building_2[5][6], int row, int col, int start = 0,  int end = 0)
 {
     //Caso base
     int nextColumn, returnColumn;
