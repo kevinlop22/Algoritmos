@@ -19,7 +19,7 @@ int tallestbuilding(int building[])//Lineal
 
 //El algotirmo evalua cada uno de los elementos de la matriz, el caso base es de la linea 25 a la 28, los dos if siguientes actualizan la busqueda en columnas y filas y aplican recursividad.
 
-int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int row = 0)//Logaritmico
+int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int row = 0)
 {
     //Caso Base
     if (building_2[row][col] == 0)
@@ -36,11 +36,13 @@ int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int r
 
 //Este algotirmo utiliza busqueda binaria ya que empieza buscando en la mitad de la matriz, si encuentra 0 se va hacia arriba sino hacia abajo uy actualiza la nueva mitad de la matriz.
 
-int tallestbuilding_3(int building_2[5][6], int row, int col, int start = 0,  int end = 0)
+int tallestbuilding_3(int building_2[5][6], int row, int col, int start = 0,  int end = 0)//Logaritmico
 {
+    //Caso base
     int nextColumn, returnColumn;
     if(end == 0)
         end = 5;
+    //Recursividad
     int midle = (start + end)/2;
     bool inRow = false;
     for(int i=0; i < col; i++)
