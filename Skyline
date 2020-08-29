@@ -9,7 +9,7 @@ int tallestbuilding(int building[])//Lineal
     for (int n=0; n<(5*6); n++)
     {
         if(building[n] == 0)
-            {return col+1;}
+            {return col;}
         if(n%6==0)
             {col = 0;} 
         col++;
@@ -17,13 +17,13 @@ int tallestbuilding(int building[])//Lineal
     return -1;
 }
 
-//El algotirmo logaritmico evalua cada uno de los elementos de una matriz, el caso base es de la linea 25 a la 28, los dos if siguientes actualizan la busqueda en columnas y filas y aplican recursividad.
+//El algotirmo evalua cada uno de los elementos de la matriz, el caso base es de la linea 25 a la 28, los dos if siguientes actualizan la busqueda en columnas y filas y aplican recursividad.
 
 int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int row = 0)//Logaritmico
 {
     //Caso Base
     if (building_2[row][col] == 0)
-        return col+1;
+        return col;
     else if (Row < col or Col < row)
         return -1;
     //Recursividad
@@ -34,18 +34,56 @@ int tallestbuilding_2(int building_2[5][6], int Row, int Col, int col = 0, int r
     return -1;
 }
 
+//Este algotirmo utiliza busqueda binaria ya que empieza buscando en la mitad de la matriz, si encuentra 0 se va hacia arriba sino hacia abajo uy actualiza la nueva mitad de la matriz.
+
+int tallestbuilding_3(int building_2[5][6], int row, int col, int start = 0,  int end = 0)
+{
+    int nextColumn, returnColumn;
+    if(end == 0)
+        end = 5;
+    int midle = (start + end)/2;
+    bool inRow = false;
+    for(int i=0; i < col; i++)
+    {
+        if(building_2[midle][i] == 0)
+        {
+            inRow = true;
+            if(midle == 0)
+            {
+                return i;
+            }
+            nextColumn = tallestbuilding_3(building_2, row, col, start, midle);
+            if(nextColumn < 0)
+            {
+                returnColumn = i;
+            }
+            else
+                returnColumn = nextColumn;
+            break;
+        }
+    }
+    if(!inRow && ((midle + end)/2) == midle)
+    {
+        return -1;
+    }
+    if(inRow)
+    {
+        return returnColumn;
+    }
+    return tallestbuilding_3(building_2, row, col, midle, end);
+}
 
 int main()
 {
-    int building[] = {1,1,1,1,0,1,1,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,1};
-    cout << tallestbuilding(building) << endl;
+    int building[] = {1,1,1,0,1,1,1,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,1};
     int building_2[5][6] = {
-        {1, 1, 1, 1, 0, 1},
-        {0, 1, 0, 1, 0, 1},
+        {1, 1, 1, 0, 1, 1},
+        {1, 1, 0, 0, 0, 1},
         {0, 1, 0, 0, 0, 1},
         {0, 1, 0, 0, 0, 1},
         {0, 0, 0, 0, 0, 1}};
-
+    cout << tallestbuilding(building) << endl;
     cout << tallestbuilding_2(building_2, 6, 5) << endl;
+    cout << tallestbuilding_3(building_2, 6, 5, 0, 0) << endl;
     return 0;
 }
