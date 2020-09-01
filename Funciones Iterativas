@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+int sumatoria_n_Iterativa(int n)//t(n)=4n+4=O(n)
+{
+    int resultado = 0;//1
+    for(int i = 0; i <= n; i++)//1+(n+1)+n=2n+2
+    {
+        resultado += i;//2n
+    }
+    return resultado;//1
+}
+
+int sumatoria_n_Recursiva(int n)//t(n)=n+1=O(n)
+{
+    if(n==1)//1
+        return 1;//1
+    else
+        return (sumatoria_n_Recursiva(n-1)+n);//t(n-1)
+}
+//t(1)=2
+//t(2)=T(1)+1=3
+//t(3)=T(2)+1=4
+int sumatoria_n_SumaDrecta(int n)//t(n)=6=O(1)
+{
+    int resultado;//1
+    resultado = (n*(n+1))/2;//4
+    return resultado;//1
+}
+
+int main()
+{
+    
+    cout << "Digite un entero n para realizar su respectiva sumatoria: " << endl;
+    int n;
+    cin >> n;
+    cout << sumatoria_n_Iterativa(n) << endl;
+    cout << sumatoria_n_Recursiva(n) << endl;
+    cout << sumatoria_n_SumaDrecta(n) << endl;
+}
