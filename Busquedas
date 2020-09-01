@@ -108,34 +108,35 @@ int main()
     cout << "Unsorted: " << endl;
     busqueda.print_vector(elementos, 100000);
 
-    DECLARE_TIMING(tt);
-    START_TIMING(tt);
-    int ans1 = busqueda.busquedaSecuencial(8, elementos);
-    STOP_TIMING(tt);
-    SHOW_TIMING(tt, "Iteration");
-    cout << "Iteration: " << ans1 << endl;
+    int ans1 = busqueda.busquedaSecuencial(8888, elementos);
 
     sort(elementos.begin(), elementos.end());
     cout << "Sorted: " << endl;
     busqueda.print_vector(elementos, 100000);
 
+    DECLARE_TIMING(tt);
+    START_TIMING(tt);
+    STOP_TIMING(tt);
+    SHOW_TIMING(tt, "Iteration");
+    cout << "Iteration: " << ans1 << endl;
+
     DECLARE_TIMING(tt2);
     START_TIMING(tt2);
-    int ans2 = busqueda.busquedaSecuencialOrdenada1(8, elementos);
+    int ans2 = busqueda.busquedaSecuencialOrdenada1(8888, elementos);
     STOP_TIMING(tt2);
     SHOW_TIMING(tt2, "Iteration");
     cout << "Iteration: " << ans2 << endl;
 
     DECLARE_TIMING(tt3);
     START_TIMING(tt3);
-    int ans3 = busqueda.busquedaSecuencialOrdenada2(8, elementos);
+    int ans3 = busqueda.busquedaSecuencialOrdenada2(8888, elementos);
     STOP_TIMING(tt3);
     SHOW_TIMING(tt3, "Iteration");
     cout << "Iteration: " << ans3 << endl;
 
     DECLARE_TIMING(tt4);
     START_TIMING(tt4);
-    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, 100000);
+    int ans4 = busqueda.busquedaBinaria(8888, elementos, 0, 100000);
     STOP_TIMING(tt4);
     SHOW_TIMING(tt4, "Iteration");
     cout << "Iteration: " << ans4 << endl;
