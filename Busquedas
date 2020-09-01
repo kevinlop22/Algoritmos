@@ -97,16 +97,16 @@ public:
 int main()
 {
     vector <int> elementos;
-    int count = 10;
+    int count = 100000;
     for(size_t i = 0; i < count; i++)
     {
-        elementos.push_back(rand()%10);
+        elementos.push_back(rand()%100000);
     }
     
     //create instance of Busqueda
     Busqueda <int> busqueda;
     cout << "Unsorted: " << endl;
-    busqueda.print_vector(elementos, 10);
+    busqueda.print_vector(elementos, 100000);
 
     DECLARE_TIMING(tt);
     START_TIMING(tt);
@@ -117,7 +117,7 @@ int main()
 
     sort(elementos.begin(), elementos.end());
     cout << "Sorted: " << endl;
-    busqueda.print_vector(elementos, 10);
+    busqueda.print_vector(elementos, 100000);
 
     DECLARE_TIMING(tt2);
     START_TIMING(tt2);
@@ -135,7 +135,7 @@ int main()
 
     DECLARE_TIMING(tt4);
     START_TIMING(tt4);
-    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, 10);
+    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, 100000);
     STOP_TIMING(tt4);
     SHOW_TIMING(tt4, "Iteration");
     cout << "Iteration: " << ans4 << endl;
