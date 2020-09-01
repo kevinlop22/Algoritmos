@@ -1,0 +1,148 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdlib.h>
+#include "mytimer.h"
+using namespace std;
+
+template <class T>
+class Busqueda
+{
+private:
+    vector <T> elementos;
+public:
+    Busqueda()
+    {
+        
+    }
+    ~Busqueda()
+    {
+        
+    }
+    
+    int busquedaSecuencial(int valor, std::vector <T> &arr)
+    {
+        for(size_t i = 0; i < arr.size(); i++)
+        {
+            if(arr[i] == valor)
+                return i;
+        }
+        return -1;
+        
+    }
+    int busquedaSecuencialOrdenada1(int valor, std::vector <T> &arr)
+    {
+        for(size_t i = 0; i < arr.size(); i++)
+        {
+            if(arr[i] == valor)
+                return i;
+        }
+        return -1;
+        
+    }
+    int busquedaSecuencialOrdenada2(int valor, std::vector <T> &arr)
+    {
+        int i = 0;
+        char flag = false;
+        while((flag == false) && (i<arr.size()))
+        {
+            if(arr[i] == valor)
+            {
+                flag = true;
+            }
+            i++;
+        }
+        if(flag == false)
+        {
+            return -1;
+        }
+        else if(flag == true)
+        {
+            return i-1;
+        }
+    }
+    int busquedaBinaria(int valor, std::vector <T> &arr, int primero, int ultimo)
+    {
+        int i;
+        if(ultimo < primero)
+            i = -1;
+        else
+        {
+            int medio = ((primero + ultimo)/2);
+            cout << medio << endl;
+            cout << elementos.size() << endl;
+            if(valor == elementos[medio])
+                i = medio;
+            else if(valor < elementos[medio])
+            {
+                busquedaBinaria(valor, elementos, primero, medio-1);
+            }
+            else
+            {
+                busquedaBinaria(valor, elementos, medio+1, ultimo);
+            }
+        }
+        return i;
+    }
+
+    void print_vector(std::vector<T> arr, int N)
+    {
+        for(size_t i= 0; i < arr.size() && i < N; i++)
+        {
+            cout << arr[i] << ", ";
+        }
+        cout << endl;
+    }
+};
+
+
+int main()
+{
+    vector <int> elementos;
+    int count = 10;
+    for(size_t i = 0; i < count; i++)
+    {
+        elementos.push_back(rand()%10);
+    }
+    
+    //create instance of Busqueda
+    Busqueda <int> busqueda;
+    cout << "Unsorted: " << endl;
+    busqueda.print_vector(elementos, 10);
+
+    DECLARE_TIMING(tt);
+    START_TIMING(tt);
+    int ans1 = busqueda.busquedaSecuencial(8, elementos);
+    STOP_TIMING(tt);
+    SHOW_TIMING(tt, "Iteration");
+    cout << "Iteration: " << ans1 << endl;
+
+    sort(elementos.begin(), elementos.end());
+    cout << "Sorted: " << endl;
+    busqueda.print_vector(elementos, 10);
+
+    DECLARE_TIMING(tt2);
+    START_TIMING(tt2);
+    int ans2 = busqueda.busquedaSecuencialOrdenada1(8, elementos);
+    STOP_TIMING(tt2);
+    SHOW_TIMING(tt2, "Iteration");
+    cout << "Iteration: " << ans2 << endl;
+
+    DECLARE_TIMING(tt3);
+    START_TIMING(tt3);
+    int ans3 = busqueda.busquedaSecuencialOrdenada2(8, elementos);
+    STOP_TIMING(tt3);
+    SHOW_TIMING(tt3, "Iteration");
+    cout << "Iteration: " << ans3 << endl;
+
+    busqueda.print_vector(elementos, 10);
+
+    DECLARE_TIMING(tt4);
+    START_TIMING(tt4);
+    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, elementos.size());
+    STOP_TIMING(tt4);
+    SHOW_TIMING(tt4, "Iteration");
+    cout << "Iteration: " << ans4 << endl;
+
+    return 0;
+}
