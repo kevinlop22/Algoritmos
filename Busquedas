@@ -8,8 +8,6 @@ using namespace std;
 template <class T>
 class Busqueda
 {
-private:
-    vector <T> elementos;
 public:
     Busqueda()
     {
@@ -65,21 +63,21 @@ public:
     {
         int i;
         if(ultimo < primero)
+        {
             i = -1;
+        }
         else
         {
             int medio = ((primero + ultimo)/2);
-            cout << medio << endl;
-            cout << elementos.size() << endl;
-            if(valor == elementos[medio])
+            if(valor == arr[medio])
                 i = medio;
-            else if(valor < elementos[medio])
+            else if(valor < arr[medio])
             {
-                busquedaBinaria(valor, elementos, primero, medio-1);
+                i = busquedaBinaria(valor, arr, primero, medio-1);
             }
             else
             {
-                busquedaBinaria(valor, elementos, medio+1, ultimo);
+                i = busquedaBinaria(valor, arr, medio+1, ultimo);
             }
         }
         return i;
@@ -135,11 +133,9 @@ int main()
     SHOW_TIMING(tt3, "Iteration");
     cout << "Iteration: " << ans3 << endl;
 
-    busqueda.print_vector(elementos, 10);
-
     DECLARE_TIMING(tt4);
     START_TIMING(tt4);
-    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, elementos.size());
+    int ans4 = busqueda.busquedaBinaria(8, elementos, 0, 10);
     STOP_TIMING(tt4);
     SHOW_TIMING(tt4, "Iteration");
     cout << "Iteration: " << ans4 << endl;
