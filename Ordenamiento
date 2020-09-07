@@ -1,0 +1,251 @@
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include "mytimer.h"
+using namespace std;
+
+template <typename T>
+class Sorter
+{
+public:
+    Sorter()
+    {
+        
+    }
+    ~Sorter()
+    {
+        
+    }
+    
+    void swap(int i, int j, std::vector <T> &arr)
+    {
+        T aux = arr[i];
+        arr[i] = arr[j];
+        arr[j] = arr[aux];
+    }
+    
+    virtual void sort(std::vector <T> &arr)
+    {
+        
+    }
+};
+
+template <typename T>
+void print_vector(std::vector<T> arr, int N)
+{
+    for(size_t i= 0; i < arr.size() && i < N; i++)
+    {
+        cout << arr[i] << ", ";
+    }
+    cout << endl;
+}
+
+template <typename T>
+class SelectionSort : public Sorter<T>
+{
+public:
+    SelectionSort()
+    {
+        
+    }
+    ~SelectionSort()
+    {
+        
+    }
+    
+    void sort(std::vector <T> &arr)
+    {
+        for(int i = 0; i < arr.size() -1; i++)
+        {
+            size_t min = i;
+            for(size_t j = i+1; j < arr.size() -1; j++)
+            {
+                if(arr[j] < arr[min])
+                    min = j;
+            }
+            Sorter <T>::swap(i, min, arr);
+        }
+    }
+};
+
+template <typename T>
+class BubbleSort : public Sorter<T>
+{
+public:
+    BubbleSort()
+    {
+        
+    }
+    ~BubbleSort()
+    {
+        
+    }
+    
+    
+    void sort(std::vector<T> &arr)
+    {
+        bool flag = true;
+        for(size_t i = 0; i < arr.size()-1; i++)
+        {
+            for(size_t j = 0; j < arr.size(); j++)
+            {
+                Sorter<T>::swap(j, j+1, arr);
+                flag = false;
+            }
+            if(flag == true)
+                break;
+        }
+    }
+    
+};
+
+template <typename T>
+class InsertionSort : public Sorter<T>
+{
+public:
+    InsertionSort()
+   {
+
+   }
+   ~InsertionSort()
+   {
+
+   }
+   void sort(std::vector<T> &arr)
+   {
+       T key;
+       for(size_t i = 1; i < arr.size(); i++)
+       {
+           key = arr[i];
+           int j = 1-1;
+           while(j >= i && arr[j] > key)
+           {
+               arr[j+1] = arr[j];
+               j--;
+           }
+           arr[j+1] = key;
+       }
+   }
+};
+
+    template <typename T>
+class MergeSort : public Sorter<T>
+{
+public:
+    MergeSort()
+   {
+
+   }
+   ~MergeSort()
+   {
+
+   }
+   void sort(std::vector<T> &arr)
+   {
+       mergesort(arr, 0, arr.size()-1);
+   }
+   
+   void mergesort(std::vector<T> &arr, int l, int r)
+   {
+        if(l < r)
+        {
+            int m = (l+r)/2;
+            mergesort(arr, l, m);
+            mergesort(arr, m+1, r);
+            merge(arr, l, m, r);
+        }
+    }
+
+    void merge(std::vector<T> &arr, int l, int m, int r)
+    {
+        int i = l, j = m+1, k = 0;
+
+        while(i < m && j < r)
+        {
+            if(arr[i] < arr[j])
+            {
+                arr[k] = arr[i];
+                i++; k++;
+            }
+            else
+            {
+                arr[k] = arr[j];
+                j++; k++;
+            }
+        }
+        while(i < m)
+        {
+            arr[k] = arr[i];
+            i++;
+            k++;
+        }
+        while(j < r)
+        {
+            arr[k] = arr[j];
+            j++;
+            k++;
+        }
+    }
+};
+
+int main()
+{
+    vector <float> arr_f;
+    vector <float> arr_g;
+    vector <float> arr_h;
+    vector <float> arr_i;
+    int count = 10000;
+    for(size_t i = 0; i < count; i++)
+    {
+        arr_f.push_back((float)rand() / RAND_MAX);
+    }
+    for(size_t i = 0; i < count; i++)
+    {
+        arr_g.push_back(arr_f[i]);
+        arr_h.push_back(arr_f[i]);
+        arr_i.push_back(arr_f[i]);
+    }
+
+    //create instance of SelectionSort
+    SelectionSort <float> selectionSort;
+    //create instance of BubbleSort
+    BubbleSort <float> bubleSort;
+    //create instance of InsertionSort
+    InsertionSort <float> InsertionSort;
+    //create isntance of MergeSort
+    MergeSort <float> MergeSort;
+
+    cout << "Unsorted: " << endl;
+    print_vector(arr_f, 10000);
+    
+    cout << "selectionSort" << endl;
+    DECLARE_TIMING(tt);
+    START_TIMING(tt);
+    selectionSort.sort(arr_f);
+    STOP_TIMING(tt);
+    SHOW_TIMING(tt, "Iteration");
+    
+    cout << "bubleSort" << endl;
+    DECLARE_TIMING(tt2);
+    START_TIMING(tt2);
+    bubleSort.sort(arr_g);
+    STOP_TIMING(tt2);
+    SHOW_TIMING(tt2, "Iteration");
+    
+    cout << "InsertionSort" << endl;
+    DECLARE_TIMING(tt3);
+    START_TIMING(tt3);
+    InsertionSort.sort(arr_h);
+    STOP_TIMING(tt3);
+    SHOW_TIMING(tt3, "Iteration");
+    
+    cout << "MergeSort" << endl;
+    DECLARE_TIMING(tt4);
+    START_TIMING(tt4);
+    MergeSort.sort(arr_i);
+    STOP_TIMING(tt4);
+    SHOW_TIMING(tt4, "Iteration");
+    
+    return 0;
+};
+
