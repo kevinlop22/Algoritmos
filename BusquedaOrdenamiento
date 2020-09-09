@@ -1,0 +1,182 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdlib.h>
+using namespace std;
+
+template <class T>
+class BusquedaOrdenamiento
+{
+public:
+    void swap(int i, int j, std::vector <T> &arr)
+    {
+        T aux = arr[i];
+        arr[i] = arr[j];
+        arr[j] = aux;
+    }
+
+    void OrdenaBurbuja(std::vector<T> &arr)
+    {
+        bool no_swap;
+        for (size_t i = arr.size() - 1; i > 0; i--)
+        {
+            no_swap = true;
+            for (size_t j = 0; j < i; j++)
+            {
+                if (arr[j] > arr[j + 1])
+                {
+                    no_swap = false;
+                    swap(j, j + 1, arr);
+                }
+            }
+            if(no_swap)
+                break;
+        }
+    }
+
+    void OrdenaInsercion(std::vector<T> &arr)
+    {
+        T key;
+        for(size_t i = 1; i < arr.size(); i++)
+        {
+            key = arr[i];
+            int j = i;
+            while(j > 0 && arr[j-1] > key)
+            {
+                arr[j] = arr[j-1];
+                j--;
+            }
+            arr[j] = key;
+        }
+    }
+
+    int busqSecuencial(int valor, std::vector <T> &arr)
+    {
+        for(size_t i = 0; i < arr.size(); i++)
+        {
+            if(arr[i] == valor)
+                return i;
+        }
+        return -1;
+        
+    }
+
+    int busqBinaria(int valor, std::vector <T> &arr, int primero, int ultimo)
+    {
+        int i;
+        if(ultimo <= primero)
+        {
+            i = -1;
+        }
+        else
+        {
+            int medio = ((primero + ultimo)/2);
+            if(valor == arr[medio])
+                i = medio;
+            else if(valor < arr[medio])
+            {
+                i = busqBinaria(valor, arr, primero, medio-1);
+            }
+            else
+            {
+                i = busqBinaria(valor, arr, medio+1, ultimo);
+            }
+        }
+        return i;
+    }
+
+    void ordenaQuick(std::vector<T> &arr, int low, int high)
+    {
+        if (low < high)  
+        {  
+            int pi = partition(arr, low, high);  
+            ordenaQuick(arr, low, pi - 1);  
+            ordenaQuick(arr, pi + 1, high);  
+        }  
+    }
+
+    int partition (std::vector<T> &arr, int low, int high)
+    {  
+        T pivot = arr[high]; 
+        int i = (low - 1);
+        for (int j = low; j <= high - 1; j++)  
+        {  
+            if (arr[j] < pivot)  
+            {  
+                i++;
+                swap(i, j, arr);
+            }  
+        }  
+        swap(i+1, high, arr);
+        return (i + 1);  
+    }
+
+    void print_vector(std::vector<T> arr, int N)
+    {
+        for(size_t i= 0; i < arr.size() && i < N; i++)
+        {
+            cout << arr[i] << ", ";
+        }
+        cout << endl;
+    }
+};
+
+
+
+
+int main()
+{
+    int count;
+    int busquedas;
+    int n;
+    int metodo = 0;
+
+    //Creamos isntancias para BusquedaOrdenamiento
+    BusquedaOrdenamiento <int> BO;
+    cout << "Ingrese el tamaño del arreglo: " << endl;
+    cin >> count;
+    vector <int> elementos;
+    cout << "¿cuantas busquedas desea realizar?" << endl;
+    cin >> busquedas;
+    for(int i = 0; i < busquedas; i++)
+    {
+        for(size_t i = 0; i < count; i++)
+        {
+            elementos.push_back(rand()%count);
+        }
+        cout << "Unsorted" << endl;
+        BO.print_vector(elementos, count);
+        cout << "¿Que entero desea buscar?" << endl;
+        cin >> n;
+        cout << "El indice en el que esta el entero por busqueda secuencial es: " << BO.busqSecuencial(n, elementos) << endl;
+        bool validacion = false;
+        while(validacion == false)
+        {
+            cout << "¿Que metodo de ordenmaiento desea utilizar?" << endl;
+            cout << "1.Insertion Sort" << endl;
+            cout << "2.Bubble Sort" << endl;
+            cout << "3.Quick Sort" << endl;
+            cin >> metodo;
+            if(metodo > 0 and metodo <= 3)
+            {
+                validacion = true;
+            }
+        }
+        if(metodo == 1)
+        {
+            BO.OrdenaInsercion(elementos);
+        }
+        if(metodo == 2)
+        {
+            BO.OrdenaBurbuja(elementos);      
+        }
+        if(metodo == 3)
+        {
+            BO.ordenaQuick(elementos, 0, elementos.size()-1);
+        }
+        cout << "sorted" << endl;
+        BO.print_vector(elementos, count);
+        cout << "El indice en el que esta el entero por busqueda binaria es: " << BO.busqBinaria(n, elementos, 0, elementos.size()) << endl;
+        elementos.clear();
+    }
+}
