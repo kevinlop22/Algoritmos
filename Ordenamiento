@@ -21,7 +21,7 @@ public:
     {
         T aux = arr[i];
         arr[i] = arr[j];
-        arr[j] = arr[aux];
+        arr[j] = aux;
     }
     
     virtual void sort(std::vector <T> &arr)
@@ -84,15 +84,19 @@ public:
     
     void sort(std::vector<T> &arr)
     {
-        bool flag = true;
-        for(size_t i = 0; i < arr.size()-1; i++)
+        bool no_swap;
+        for (size_t i = arr.size() - 1; i > 0; i--)
         {
-            for(size_t j = 0; j < arr.size(); j++)
+            no_swap = true;
+            for (size_t j = 0; j < i; j++)
             {
-                Sorter<T>::swap(j, j+1, arr);
-                flag = false;
+                if (arr[j] > arr[j + 1])
+                {
+                    no_swap = false;
+                    swap(j, j + 1, arr);
+                }
             }
-            if(flag == true)
+            if(no_swap)
                 break;
         }
     }
@@ -186,6 +190,49 @@ public:
             k++;
         }
     }
+};
+
+
+    template <typename T>
+class QuickSort : public Sorter<T>
+{
+    QuickSort()
+    {
+    
+    }
+    ~QuickSort()
+    {
+    
+    }
+    void sort(std::vector<T> &arr)
+   {
+       quickSort(arr, 0, arr.size()-1);
+   }
+    void quickSort(std::vector<T> &arr, int low, int high)
+        {
+            if (low < high)  
+            {  
+                int pi = partition(arr, low, high);  
+                ordenaQuick(arr, low, pi - 1);  
+                ordenaQuick(arr, pi + 1, high);  
+            }  
+        }
+
+        int partition (std::vector<T> &arr, int low, int high)
+        {  
+            T pivot = arr[high]; 
+            int i = (low - 1);
+            for (int j = low; j <= high - 1; j++)  
+            {  
+                if (arr[j] < pivot)  
+                {  
+                    i++;
+                    swap(i, j, arr);
+                }  
+            }  
+            swap(i+1, high, arr);
+            return (i + 1);  
+        }
 };
 
 int main()
